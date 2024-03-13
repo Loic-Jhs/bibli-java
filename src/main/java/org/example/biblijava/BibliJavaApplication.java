@@ -51,7 +51,7 @@ public class BibliJavaApplication extends Application {
             root.setTop(menuBar);
 
             // Finalise et affiche la scène
-            Scene scene = new Scene(root, 800, 600);
+            Scene scene = new Scene(root, 1280, 720);
             primaryStage.setTitle("Bibliothèque");
             primaryStage.setScene(scene);
             primaryStage.show();
