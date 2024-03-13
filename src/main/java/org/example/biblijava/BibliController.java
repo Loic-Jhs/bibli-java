@@ -3,7 +3,7 @@ package org.example.biblijava;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class BibliController {
     @FXML
     private Label welcomeText;
 
