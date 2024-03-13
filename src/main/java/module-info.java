@@ -6,4 +6,6 @@ module org.example.biblijava {
 
     opens org.example.biblijava to javafx.fxml;
     exports org.example.biblijava;
+    exports org.example.biblijava.controller;
+    opens org.example.biblijava.controller to javafx.fxml;
 }
