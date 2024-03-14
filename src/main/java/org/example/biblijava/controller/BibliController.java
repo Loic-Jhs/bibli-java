@@ -25,8 +25,11 @@ public class BibliController {
     @FXML
     private TableColumn<Book, Number> rangeeColumn;
 
+    // Référence au contrôleur DetailFormController
+    @FXML
+    private DetailFormController detailFormController;
 
-    private ObservableList<Book> booksData = FXCollections.observableArrayList();
+    private final ObservableList<Book> booksData = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
@@ -34,16 +37,29 @@ public class BibliController {
         titreColumn.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
         auteurColumn.setCellValueFactory(cellData -> cellData.getValue().auteurProperty());
         presentationColumn.setCellValueFactory(cellData -> cellData.getValue().presentationProperty());
-        parutionColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getParution()));
-        colonneColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getColonne()));
-        rangeeColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getRangee()));
-
-
+        parutionColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getParution()));
+        colonneColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getColonne()));
+        rangeeColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getRangee()));
 
         booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une belle histoire", 1943, 1, 1));
         booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949, 2, 3));
 
-
         tableBooks.setItems(booksData);
+
+        // Appel de la méthode handleBookSelection lors du changement de sélection dans la TableView
+        tableBooks.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            handleBookSelection();
+        });
+    }
+
+    // Méthode pour gérer le changement de sélection dans la TableView
+    @FXML
+    private void handleBookSelection() {
+        Book selectedBook = tableBooks.getSelectionModel().getSelectedItem();
+        if (selectedBook != null) {
+            detailFormController.displayBookDetails(selectedBook);
+        } else {
+            detailFormController.clearBookDetails(); // Efface les détails si aucun livre n'est sélectionné
+        }
     }
 }

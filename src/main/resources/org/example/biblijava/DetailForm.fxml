@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
-
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.biblijava.controller.DetailFormController">
+    <VBox spacing="10">
+        <Label text="Détails du Livre Sélectionné" style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+        <TableView>
+            <columns>
+                <TableColumn text="Titre" fx:id="titreColumn"/>
+                <TableColumn text="Auteur" fx:id="auteurColumn"/>
+                <TableColumn text="Présentation" fx:id="presentationColumn"/>
+                <TableColumn text="Parution" fx:id="parutionColumn"/>
+                <TableColumn text="Colonne" fx:id="colonneColumn"/>
+                <TableColumn text="Rangée" fx:id="rangeeColumn"/>
+            </columns>
+        </TableView>
+    </VBox>
 </AnchorPane>

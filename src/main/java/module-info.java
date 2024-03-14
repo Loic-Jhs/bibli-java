@@ -1,4 +1,6 @@
 module org.example.biblijava {
+    exports org.example.biblijava.model; // Export du package contenant la classe Book
+
     requires javafx.controls;
     requires javafx.fxml;
 
