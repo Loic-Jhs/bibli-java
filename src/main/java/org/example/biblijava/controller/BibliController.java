@@ -43,11 +43,7 @@ public class BibliController {
         booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une belle histoire", 1943, 1, 1));
         booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949, 2, 3));
 
-        // booksData.forEach(book -> System.out.println(book.getTitre() + ", " + book.getAuteur() + ", " + book.getPresentation()));
 
-
-
-
-        tableBooks.setItems(booksData); // Associe les données au TableView
+        tableBooks.setItems(booksData);
     }
 }
