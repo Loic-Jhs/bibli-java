@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import org.example.biblijava.controller.BibliController;
+
 import javafx.scene.layout.AnchorPane;
 
 import javafx.stage.FileChooser;
@@ -11,6 +13,7 @@ import javafx.stage.Stage;
 
 import javafx.scene.layout.BorderPane;
 
+import java.io.File;
 import java.io.IOException;
 
 public class BibliJavaApplication extends Application {
@@ -23,6 +26,7 @@ public class BibliJavaApplication extends Application {
             // Charger le contenu FXML et l'ajouter au centre du BorderPane
             FXMLLoader fxmlLoader = new FXMLLoader(BibliJavaApplication.class.getResource("/org/example/biblijava/bibliTable.fxml"));
             BorderPane tableView = fxmlLoader.load(); // Charge le contenu FXML
+            BibliController bibliController = fxmlLoader.getController();
 
             root.setCenter(tableView); // Ajoute le TableView chargé au centre du BorderPane
 
@@ -37,7 +41,11 @@ public class BibliJavaApplication extends Application {
                 FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("Fichiers XML (*.xml)", "*.xml");
                 
                 fileChooser.getExtensionFilters().add(xmlFilter);
-                fileChooser.showOpenDialog(primaryStage);
+                File file = fileChooser.showOpenDialog(primaryStage);
+
+                if (file != null) {
+                    bibliController.loadBooksFromXML(file);
+                }
             });
 
             MenuItem exitItem = new MenuItem("Quitter");
@@ -60,8 +68,9 @@ public class BibliJavaApplication extends Application {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/biblijava/aboutView.fxml"));
                     Scene scene = new Scene(loader.load());
                     Stage aboutStage = new Stage();
-                    aboutStage.setMinWidth(400); // Largeur minimale
-                    aboutStage.setMinHeight(300); // Hauteur minimale
+                    aboutStage.setMinWidth(400);
+                    aboutStage.setMinHeight(300);
+                    aboutStage.setResizable(false);
                     aboutStage.setTitle("Infos");
                     aboutStage.setScene(scene);
                     aboutStage.show();
@@ -79,10 +88,11 @@ public class BibliJavaApplication extends Application {
             root.setTop(menuBar);
 
             // Finalise et affiche la scène
-            Scene scene = new Scene(root, 1280, 740);
+            Scene scene = new Scene(root, 1280, 720);
             String css = this.getClass().getResource("/styles.css").toExternalForm();
             scene.getStylesheets().add(css);
             primaryStage.setTitle("Bibliothèque");
+            primaryStage.setResizable(false);
             primaryStage.setScene(scene);
             primaryStage.show();
 

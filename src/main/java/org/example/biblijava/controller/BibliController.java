@@ -6,6 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.biblijava.model.Book;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.*;
+
+import java.io.File;
 
 public class BibliController {
 
@@ -59,8 +64,8 @@ public class BibliController {
             }
         });
 
-        booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une belle histoire", 1943, 1, 1));
-        booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949, 2, 3));
+//        booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une belle histoire", 1943, 1, 1));
+//        booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949, 2, 3));
 
 
         tableBooks.setItems(booksData);
@@ -107,6 +112,57 @@ public class BibliController {
         rangeeTextField.setText(String.valueOf(book.getRangee()));
 
         handleUnlockAction();
+    }
+
+    public void loadBooksFromXML(File file) {
+        try {
+            // Efface tous les livres existants dans la liste observable pour commencer avec une liste vide.
+            // Cela évite d'afficher les livres précédemment chargés ou ajoutés manuellement.
+            booksData.clear();
+
+            // Prépare un constructeur de documents XML, nécessaire pour lire le contenu du fichier XML.
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+            // Parse le fichier XML en un objet Document, qui permet de naviguer dans la structure du fichier XML.
+            Document doc = dBuilder.parse(file);
+            // Normalise le document XML pour assurer une structure cohérente.
+            doc.getDocumentElement().normalize();
+
+            // Obtient tous les éléments "livre" du document XML.
+            NodeList nList = doc.getElementsByTagName("livre");
+
+            // Itère sur chaque élément "livre" trouvé dans le document.
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+
+                // Vérifie si le nœud courant est bien un élément (et non du texte ou autre).
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+
+                    // Récupère les informations du livre à partir des éléments fils.
+                    // Notez que vous devrez adapter ces lignes si le nom des éléments dans votre fichier XML est différent.
+                    String titre = eElement.getElementsByTagName("titre").item(0).getTextContent();
+                    Element auteurElement = (Element) eElement.getElementsByTagName("auteur").item(0);
+                    String nom = auteurElement.getElementsByTagName("nom").item(0).getTextContent();
+                    String prenom = auteurElement.getElementsByTagName("prenom").item(0).getTextContent();
+                    // Combine le prénom et le nom pour obtenir le nom complet de l'auteur.
+                    String auteur = prenom + " " + nom;
+                    String presentation = eElement.getElementsByTagName("presentation").item(0).getTextContent();
+                    int parution = Integer.parseInt(eElement.getElementsByTagName("parution").item(0).getTextContent());
+                    int colonne = Integer.parseInt(eElement.getElementsByTagName("colonne").item(0).getTextContent());
+                    int rangee = Integer.parseInt(eElement.getElementsByTagName("rangee").item(0).getTextContent());
+
+                    // Crée une nouvelle instance de Book avec les informations récupérées.
+                    Book book = new Book(titre, auteur, presentation, parution, colonne, rangee);
+                    // Ajoute le nouveau livre à la liste observable, ce qui mettra à jour l'affichage dans le TableView.
+                    booksData.add(book);
+                }
+            }
+        } catch (Exception e) {
+            // En cas d'erreur lors du traitement du fichier XML, affiche la trace de l'erreur.
+            e.printStackTrace();
+        }
     }
 
 }
