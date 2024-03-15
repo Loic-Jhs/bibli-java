@@ -47,7 +47,21 @@ public class BibliJavaApplication extends Application {
             // Menu Infos
             Menu aboutMenu = new Menu("About");
             MenuItem infosItem = new MenuItem("Infos");
-            saveItem.setOnAction(e -> System.out.println("Infos soon..."));
+            infosItem.setOnAction(e -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/biblijava/aboutView.fxml"));
+                    Scene scene = new Scene(loader.load());
+                    Stage aboutStage = new Stage();
+                    aboutStage.setMinWidth(400); // Largeur minimale
+                    aboutStage.setMinHeight(300); // Hauteur minimale
+                    aboutStage.setTitle("Infos");
+                    aboutStage.setScene(scene);
+                    aboutStage.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+
             aboutMenu.getItems().addAll(infosItem);
 
             // Ajoute les menus à la barre de menu
