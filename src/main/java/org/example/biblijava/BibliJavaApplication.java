@@ -44,8 +44,14 @@ public class BibliJavaApplication extends Application {
             saveAsItem.setOnAction(e -> System.out.println("Enregistrer les modifications dans un nouveau fichier"));
             editMenu.getItems().addAll(saveItem, saveAsItem);
 
+            // Menu Infos
+            Menu aboutMenu = new Menu("About");
+            MenuItem infosItem = new MenuItem("Infos");
+            saveItem.setOnAction(e -> System.out.println("Infos soon..."));
+            aboutMenu.getItems().addAll(infosItem);
+
             // Ajoute les menus à la barre de menu
-            menuBar.getMenus().addAll(fileMenu, editMenu);
+            menuBar.getMenus().addAll(fileMenu, editMenu, aboutMenu);
 
             // Ajoute la barre de menu au BorderPane
             root.setTop(menuBar);
