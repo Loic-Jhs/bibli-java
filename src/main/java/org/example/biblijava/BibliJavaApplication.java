@@ -3,11 +3,12 @@ package org.example.biblijava;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -30,8 +31,15 @@ public class BibliJavaApplication extends Application {
 
             // Menu Fichier
             Menu fileMenu = new Menu("Fichier");
-            MenuItem importItem = new MenuItem("Importer");
-            importItem.setOnAction(e -> System.out.println("Importer un fichier XML"));
+            MenuItem importItem = new MenuItem("Ouvrir");
+            importItem.setOnAction(e -> {
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("Fichiers XML (*.xml)", "*.xml");
+                
+                fileChooser.getExtensionFilters().add(xmlFilter);
+                fileChooser.showOpenDialog(primaryStage);
+            });
+
             MenuItem exitItem = new MenuItem("Quitter");
             exitItem.setOnAction(e -> System.exit(0));
             fileMenu.getItems().addAll(importItem, exitItem);
