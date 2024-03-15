@@ -23,7 +23,6 @@ import java.time.LocalDate;
 public class BibliController {
     private File currentFile;
 
-
     @FXML
     private TableView<Book> tableBooks;
     @FXML
@@ -53,8 +52,8 @@ public class BibliController {
     private TextField rangeeTextField;
     @FXML
     private Button ajouterButton;
-
-
+    @FXML
+    private Button modifierButton;
 
     private ObservableList<Book> booksData = FXCollections.observableArrayList();
 
@@ -64,9 +63,12 @@ public class BibliController {
         titreColumn.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
         auteurColumn.setCellValueFactory(cellData -> cellData.getValue().auteurProperty());
         presentationColumn.setCellValueFactory(cellData -> cellData.getValue().presentationProperty());
-        parutionColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getParution()));
-        colonneColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getColonne()));
-        rangeeColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getRangee()));
+        parutionColumn
+                .setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getParution()));
+        colonneColumn
+                .setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getColonne()));
+        rangeeColumn
+                .setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getRangee()));
 
         tableBooks.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -74,9 +76,26 @@ public class BibliController {
             }
         });
 
-//        booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une belle histoire", 1943, 1, 1));
-//        booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949, 2, 3));
+        // Désactive le bouton "Valider" au démarrage
+        ajouterButton.setDisable(true);
 
+        // Affiche le bouton "Modifier" lorsque l'utilisateur sélectionne un livre
+        tableBooks.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                ajouterButton.setDisable(true);
+                modifierButton.setDisable(false);
+                modifierButton.setVisible(true);
+            } else {
+                ajouterButton.setDisable(false);
+                modifierButton.setDisable(true);
+                modifierButton.setVisible(false);
+            }
+        });
+
+        // booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une
+        // belle histoire", 1943, 1, 1));
+        // booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949,
+        // 2, 3));
 
         tableBooks.setItems(booksData);
     }
@@ -91,7 +110,8 @@ public class BibliController {
         String rangeeStr = rangeeTextField.getText();
 
         // Vérification que tous les champs sont remplis
-        if (titre.isEmpty() || auteur.isEmpty() || presentation.isEmpty() || parutionStr.isEmpty() || colonneStr.isEmpty() || rangeeStr.isEmpty()) {
+        if (titre.isEmpty() || auteur.isEmpty() || presentation.isEmpty() || parutionStr.isEmpty()
+                || colonneStr.isEmpty() || rangeeStr.isEmpty()) {
             showAlert("Erreur", "Tous les champs doivent être remplis.");
             return;
         }
@@ -163,7 +183,6 @@ public class BibliController {
         }
     }
 
-
     @FXML
     private void handleUnlockAction() {
         titreTextField.setDisable(false);
@@ -188,15 +207,19 @@ public class BibliController {
 
     public void loadBooksFromXML(File file) {
         try {
-            // Efface tous les livres existants dans la liste observable pour commencer avec une liste vide.
-            // Cela évite d'afficher les livres précédemment chargés ou ajoutés manuellement.
+            // Efface tous les livres existants dans la liste observable pour commencer avec
+            // une liste vide.
+            // Cela évite d'afficher les livres précédemment chargés ou ajoutés
+            // manuellement.
             booksData.clear();
 
-            // Prépare un constructeur de documents XML, nécessaire pour lire le contenu du fichier XML.
+            // Prépare un constructeur de documents XML, nécessaire pour lire le contenu du
+            // fichier XML.
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
-            // Parse le fichier XML en un objet Document, qui permet de naviguer dans la structure du fichier XML.
+            // Parse le fichier XML en un objet Document, qui permet de naviguer dans la
+            // structure du fichier XML.
             Document doc = dBuilder.parse(file);
             // Normalise le document XML pour assurer une structure cohérente.
             doc.getDocumentElement().normalize();
@@ -214,29 +237,42 @@ public class BibliController {
 
                     // Exemple pour le titre
                     NodeList titreNodeList = eElement.getElementsByTagName("titre");
-                    String titre = titreNodeList.getLength() > 0 ? titreNodeList.item(0).getTextContent() : "Titre inconnu";
+                    String titre = titreNodeList.getLength() > 0 ? titreNodeList.item(0).getTextContent()
+                            : "Titre inconnu";
 
                     // Exemple pour l'auteur
                     NodeList auteurNodeList = eElement.getElementsByTagName("auteur");
-                    String nom = auteurNodeList.getLength() > 0 ? ((Element) auteurNodeList.item(0)).getElementsByTagName("nom").item(0).getTextContent() : "Nom inconnu";
-                    String prenom = auteurNodeList.getLength() > 0 ? ((Element) auteurNodeList.item(0)).getElementsByTagName("prenom").item(0).getTextContent() : "Prenom inconnu";
+                    String nom = auteurNodeList.getLength() > 0
+                            ? ((Element) auteurNodeList.item(0)).getElementsByTagName("nom").item(0).getTextContent()
+                            : "Nom inconnu";
+                    String prenom = auteurNodeList.getLength() > 0
+                            ? ((Element) auteurNodeList.item(0)).getElementsByTagName("prenom").item(0).getTextContent()
+                            : "Prenom inconnu";
                     String auteur = prenom + " " + nom; // Formatage du nom de l'auteur
 
                     // Exemple pour la présentation
                     NodeList presentationNodeList = eElement.getElementsByTagName("presentation");
-                    String presentation = presentationNodeList.getLength() > 0 ? presentationNodeList.item(0).getTextContent() : "";
+                    String presentation = presentationNodeList.getLength() > 0
+                            ? presentationNodeList.item(0).getTextContent()
+                            : "";
 
                     // Exemple pour la parution
                     NodeList parutionNodeList = eElement.getElementsByTagName("parution");
-                    int parution = parutionNodeList.getLength() > 0 ? Integer.parseInt(parutionNodeList.item(0).getTextContent()) : 0;
+                    int parution = parutionNodeList.getLength() > 0
+                            ? Integer.parseInt(parutionNodeList.item(0).getTextContent())
+                            : 0;
 
                     // Exemple pour la colonne
                     NodeList colonneNodeList = eElement.getElementsByTagName("colonne");
-                    int colonne = colonneNodeList.getLength() > 0 ? Integer.parseInt(colonneNodeList.item(0).getTextContent()) : 0;
+                    int colonne = colonneNodeList.getLength() > 0
+                            ? Integer.parseInt(colonneNodeList.item(0).getTextContent())
+                            : 0;
 
                     // Exemple pour la rangée
                     NodeList rangeeNodeList = eElement.getElementsByTagName("rangee");
-                    int rangee = rangeeNodeList.getLength() > 0 ? Integer.parseInt(rangeeNodeList.item(0).getTextContent()) : 0;
+                    int rangee = rangeeNodeList.getLength() > 0
+                            ? Integer.parseInt(rangeeNodeList.item(0).getTextContent())
+                            : 0;
 
                     // Création et ajout du livre à la liste
                     Book book = new Book(titre, auteur, presentation, parution, colonne, rangee);
@@ -244,8 +280,32 @@ public class BibliController {
                 }
             }
         } catch (Exception e) {
-            // En cas d'erreur lors du traitement du fichier XML, affiche la trace de l'erreur.
+            // En cas d'erreur lors du traitement du fichier XML, affiche la trace de
+            // l'erreur.
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleModifierAction() {
+        Book selectedBook = tableBooks.getSelectionModel().getSelectedItem();
+        if (selectedBook != null) {
+            String titre = titreTextField.getText();
+            String auteur = auteurTextField.getText();
+            String presentation = presentationTextArea.getText();
+            int parution = Integer.parseInt(parutionTextField.getText());
+            int colonne = Integer.parseInt(colonneTextField.getText());
+            int rangee = Integer.parseInt(rangeeTextField.getText());
+
+            selectedBook.setTitre(titre);
+            selectedBook.setAuteur(auteur);
+            selectedBook.setPresentation(presentation);
+            selectedBook.setParution(parution);
+            selectedBook.setColonne(colonne);
+            selectedBook.setRangee(rangee);
+
+            // Mets à jour le tableau avec les nouvelles valeurs du livre modifié
+            tableBooks.refresh();
         }
     }
 
@@ -275,7 +335,8 @@ public class BibliController {
                 // Nom
                 String[] nomPrenom = book.getAuteur().split(" ", 2); // Supposition que le format est "Prenom Nom"
                 Element nom = doc.createElement("nom");
-                nom.appendChild(doc.createTextNode(nomPrenom.length > 1 ? nomPrenom[1] : "")); // Le nom est après le prénom
+                nom.appendChild(doc.createTextNode(nomPrenom.length > 1 ? nomPrenom[1] : "")); // Le nom est après le
+                                                                                               // prénom
                 auteur.appendChild(nom);
                 // Prenom
                 Element prenom = doc.createElement("prenom");
