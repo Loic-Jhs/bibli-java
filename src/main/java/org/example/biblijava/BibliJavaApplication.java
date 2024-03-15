@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class BibliJavaApplication extends Application {
+
+    private File currentFile;
     @Override
     public void start(Stage primaryStage) throws IOException{
         try {
@@ -45,6 +47,7 @@ public class BibliJavaApplication extends Application {
 
                 if (file != null) {
                     bibliController.loadBooksFromXML(file);
+                    currentFile = file; // Mise à jour de currentFile ici
                 }
             });
 
@@ -55,9 +58,29 @@ public class BibliJavaApplication extends Application {
             // Menu Édition
             Menu editMenu = new Menu("Édition");
             MenuItem saveItem = new MenuItem("Enregistrer");
-            saveItem.setOnAction(e -> System.out.println("Enregistrer les modifications"));
+            saveItem.setOnAction(e -> {
+                if (currentFile != null) {
+                    bibliController.saveBooksToXML(currentFile);
+                } else {
+                    // Ici, vous pouvez choisir d'ouvrir la boîte de dialogue "Enregistrer sous" si aucun fichier n'est actuellement ouvert
+                    // Ou bien afficher un message d'erreur ou d'information à l'utilisateur
+                    System.out.println("Aucun fichier n'est actuellement ouvert. Utilisez 'Enregistrer sous' pour sauvegarder vos modifications.");
+                }
+            });
+
             MenuItem saveAsItem = new MenuItem("Enregistrer sous");
-            saveAsItem.setOnAction(e -> System.out.println("Enregistrer les modifications dans un nouveau fichier"));
+            saveAsItem.setOnAction(e -> {
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichiers XML (*.xml)", "*.xml");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showSaveDialog(primaryStage);
+
+                if (file != null) {
+                    bibliController.saveBooksToXML(file);
+                    currentFile = file;
+                }
+            });
+
             editMenu.getItems().addAll(saveItem, saveAsItem);
 
             // Menu Infos
