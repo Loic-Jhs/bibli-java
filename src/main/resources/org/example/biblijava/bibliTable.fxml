@@ -42,7 +42,7 @@
                 <TextField fx:id="colonneTextField" promptText="Colonne" styleClass="text-field" disable="true"/>
                 <TextField fx:id="rangeeTextField" promptText="Rangée" styleClass="text-field" disable="true"/>
                 <Button fx:id="ajouterButton" onAction="#handleAjouterAction" styleClass="button" text="Valider" disable="true"/>
-
+                <Button fx:id="modifierButton" onAction="#handleModifierAction" styleClass="button" text="Modifier" disable="true" />
             </VBox>
         </HBox>
     </center>
