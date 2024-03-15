@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.*;
 
 import java.io.File;
+import java.time.LocalDate;
 
 public class BibliController {
     private File currentFile;
@@ -85,20 +86,66 @@ public class BibliController {
         String titre = titreTextField.getText();
         String auteur = auteurTextField.getText();
         String presentation = presentationTextArea.getText();
-        int parution = Integer.parseInt(parutionTextField.getText());
-        int colonne = Integer.parseInt(colonneTextField.getText());
-        int rangee = Integer.parseInt(rangeeTextField.getText());
+        String parutionStr = parutionTextField.getText();
+        String colonneStr = colonneTextField.getText();
+        String rangeeStr = rangeeTextField.getText();
 
+        // Vérification que tous les champs sont remplis
+        if (titre.isEmpty() || auteur.isEmpty() || presentation.isEmpty() || parutionStr.isEmpty() || colonneStr.isEmpty() || rangeeStr.isEmpty()) {
+            showAlert("Erreur", "Tous les champs doivent être remplis.");
+            return;
+        }
+
+        // Vérification des valeurs numériques
+        int parution, colonne, rangee;
+        try {
+            parution = Integer.parseInt(parutionStr);
+            colonne = Integer.parseInt(colonneStr);
+            rangee = Integer.parseInt(rangeeStr);
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", "Les champs Parution, Colonne et Rangée doivent être numériques.");
+            return;
+        }
+
+        // Vérification de la date de parution
+        if (parution > LocalDate.now().getYear()) {
+            showAlert("Erreur", "L'année de parution ne peut pas être supérieure à l'année actuelle.");
+            return;
+        }
+
+        // Vérification des valeurs pour colonne et rangée
+        if (colonne < 0 || colonne > 7 || rangee < 1 || rangee > 5) {
+            showAlert("Erreur", "Colonne doit être entre 0 et 7. Rangée doit être entre 1 et 5.");
+            return;
+        }
+
+        // Vérification de l'unicité du livre
+        for (Book book : booksData) {
+            if (book.getTitre().equals(titre) && book.getAuteur().equals(auteur) && book.getParution() == parution) {
+                showAlert("Erreur", "Un livre avec le même titre, auteur et année de parution existe déjà.");
+                return;
+            }
+        }
+
+        // Ajout du livre
         Book nouveauLivre = new Book(titre, auteur, presentation, parution, colonne, rangee);
         booksData.add(nouveauLivre);
 
-        // Optionnel: Effacer les champs du formulaire après l'ajout
+        // Nettoyage des champs du formulaire
         titreTextField.clear();
         auteurTextField.clear();
         presentationTextArea.clear();
         parutionTextField.clear();
         colonneTextField.clear();
         rangeeTextField.clear();
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @FXML
