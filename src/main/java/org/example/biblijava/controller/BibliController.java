@@ -4,8 +4,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import org.example.biblijava.model.Book;
 
 public class BibliController {
@@ -24,6 +23,22 @@ public class BibliController {
     private TableColumn<Book, Number> colonneColumn;
     @FXML
     private TableColumn<Book, Number> rangeeColumn;
+
+    @FXML
+    private TextField titreTextField;
+    @FXML
+    private TextField auteurTextField;
+    @FXML
+    private TextArea presentationTextArea;
+    @FXML
+    private TextField parutionTextField;
+    @FXML
+    private TextField colonneTextField;
+    @FXML
+    private TextField rangeeTextField;
+    @FXML
+    private Button ajouterButton;
+
 
 
     private ObservableList<Book> booksData = FXCollections.observableArrayList();
@@ -45,5 +60,26 @@ public class BibliController {
 
 
         tableBooks.setItems(booksData);
+    }
+
+    @FXML
+    private void handleAjouterAction() {
+        String titre = titreTextField.getText();
+        String auteur = auteurTextField.getText();
+        String presentation = presentationTextArea.getText();
+        int parution = Integer.parseInt(parutionTextField.getText());
+        int colonne = Integer.parseInt(colonneTextField.getText());
+        int rangee = Integer.parseInt(rangeeTextField.getText());
+
+        Book nouveauLivre = new Book(titre, auteur, presentation, parution, colonne, rangee);
+        booksData.add(nouveauLivre);
+
+        // Optionnel: Effacer les champs du formulaire après l'ajout
+        titreTextField.clear();
+        auteurTextField.clear();
+        presentationTextArea.clear();
+        parutionTextField.clear();
+        colonneTextField.clear();
+        rangeeTextField.clear();
     }
 }

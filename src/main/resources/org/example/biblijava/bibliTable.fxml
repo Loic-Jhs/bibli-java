@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.biblijava.controller.BibliController">
-    <TableView fx:id="tableBooks" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="720.0" prefHeight="400.0" prefWidth="600.0">
-        <columns>
-            <TableColumn fx:id="titreColumn" prefWidth="123.0" text="Titre" />
-            <TableColumn fx:id="auteurColumn" prefWidth="193.0" text="Auteur" />
-            <TableColumn fx:id="presentationColumn" prefWidth="193.0" text="Présentation" />
-            <TableColumn fx:id="parutionColumn" prefWidth="90.0" text="Parution" />
-            <TableColumn fx:id="colonneColumn" prefWidth="63.0" text="Colonne" />
-            <TableColumn fx:id="rangeeColumn" prefWidth="57.0" text="Rangée" />
-        </columns>
-    </TableView>
-</AnchorPane>
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.biblijava.controller.BibliController">
+    <center>
+        <HBox spacing="20">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <TableView fx:id="tableBooks" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="740.0" prefHeight="400.0" prefWidth="800.0">
+                    <columns>
+                        <TableColumn fx:id="titreColumn" prefWidth="130.0" text="Titre" />
+                        <TableColumn fx:id="auteurColumn" prefWidth="130.0" text="Auteur" />
+                        <TableColumn fx:id="presentationColumn" prefWidth="220.0" text="Présentation" />
+                        <TableColumn fx:id="parutionColumn" prefWidth="100.0" text="Parution" />
+                        <TableColumn fx:id="colonneColumn" prefWidth="100.0" text="Colonne" />
+                        <TableColumn fx:id="rangeeColumn" prefWidth="100.0" text="Rangée" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <VBox prefHeight="400.0" prefWidth="380.0" spacing="10" styleClass="form-container">
+                <Label styleClass="label-header" text="Ajouter un livre" />
+                <TextField fx:id="titreTextField" promptText="Titre" styleClass="text-field" />
+                <TextField fx:id="auteurTextField" promptText="Auteur" styleClass="text-field" />
+                <TextArea fx:id="presentationTextArea" promptText="Présentation" styleClass="text-area" />
+                <TextField fx:id="parutionTextField" promptText="Parution" styleClass="text-field" />
+                <TextField fx:id="colonneTextField" promptText="Colonne" styleClass="text-field" />
+                <TextField fx:id="rangeeTextField" promptText="Rangée" styleClass="text-field" />
+                <Button fx:id="ajouterButton" onAction="#handleAjouterAction" styleClass="button" text="Valider" />
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

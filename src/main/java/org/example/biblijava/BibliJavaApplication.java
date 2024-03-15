@@ -21,7 +21,7 @@ public class BibliJavaApplication extends Application {
 
             // Charger le contenu FXML et l'ajouter au centre du BorderPane
             FXMLLoader fxmlLoader = new FXMLLoader(BibliJavaApplication.class.getResource("/org/example/biblijava/bibliTable.fxml"));
-            AnchorPane tableView = fxmlLoader.load(); // Charge le contenu FXML
+            BorderPane tableView = fxmlLoader.load(); // Charge le contenu FXML
 
             root.setCenter(tableView); // Ajoute le TableView chargé au centre du BorderPane
 
@@ -51,7 +51,9 @@ public class BibliJavaApplication extends Application {
             root.setTop(menuBar);
 
             // Finalise et affiche la scène
-            Scene scene = new Scene(root, 1280, 720);
+            Scene scene = new Scene(root, 1280, 740);
+            String css = this.getClass().getResource("/styles.css").toExternalForm();
+            scene.getStylesheets().add(css);
             primaryStage.setTitle("Bibliothèque");
             primaryStage.setScene(scene);
             primaryStage.show();
