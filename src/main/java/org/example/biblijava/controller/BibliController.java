@@ -82,4 +82,16 @@ public class BibliController {
         colonneTextField.clear();
         rangeeTextField.clear();
     }
+
+    @FXML
+    private void handleUnlockAction() {
+        titreTextField.setDisable(false);
+        auteurTextField.setDisable(false);
+        presentationTextArea.setDisable(false);
+        parutionTextField.setDisable(false);
+        colonneTextField.setDisable(false);
+        rangeeTextField.setDisable(false);
+        ajouterButton.setDisable(false);
+    }
+
 }

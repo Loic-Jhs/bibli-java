@@ -28,17 +28,19 @@
                         <TableColumn fx:id="rangeeColumn" prefWidth="100.0" text="Rangée" />
                     </columns>
                 </TableView>
+                <Button text="+" fx:id="unlockButton" onAction="#handleUnlockAction" styleClass="button-unlock"/>
             </VBox>
 
             <VBox prefHeight="400.0" prefWidth="380.0" spacing="10" styleClass="form-container">
                 <Label styleClass="label-header" text="Ajouter un livre" />
-                <TextField fx:id="titreTextField" promptText="Titre" styleClass="text-field" />
-                <TextField fx:id="auteurTextField" promptText="Auteur" styleClass="text-field" />
-                <TextArea fx:id="presentationTextArea" promptText="Présentation" styleClass="text-area" />
-                <TextField fx:id="parutionTextField" promptText="Parution" styleClass="text-field" />
-                <TextField fx:id="colonneTextField" promptText="Colonne" styleClass="text-field" />
-                <TextField fx:id="rangeeTextField" promptText="Rangée" styleClass="text-field" />
-                <Button fx:id="ajouterButton" onAction="#handleAjouterAction" styleClass="button" text="Valider" />
+                <TextField fx:id="titreTextField" promptText="Titre" styleClass="text-field" disable="true"/>
+                <TextField fx:id="auteurTextField" promptText="Auteur" styleClass="text-field" disable="true"/>
+                <TextArea fx:id="presentationTextArea" promptText="Présentation" styleClass="text-area" disable="true"/>
+                <TextField fx:id="parutionTextField" promptText="Parution" styleClass="text-field" disable="true"/>
+                <TextField fx:id="colonneTextField" promptText="Colonne" styleClass="text-field" disable="true"/>
+                <TextField fx:id="rangeeTextField" promptText="Rangée" styleClass="text-field" disable="true"/>
+                <Button fx:id="ajouterButton" onAction="#handleAjouterAction" styleClass="button" text="Valider" disable="true"/>
+
             </VBox>
         </HBox>
     </center>
