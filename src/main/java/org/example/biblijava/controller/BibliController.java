@@ -102,6 +102,22 @@ public class BibliController {
     }
 
     @FXML
+    private void handleDeleteAction() {
+        int selectedIndex = tableBooks.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            tableBooks.getItems().remove(selectedIndex);
+        } else {
+            // Afficher un message d'erreur si aucun livre n'est sélectionné
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aucune sélection");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner un livre dans la liste.");
+            alert.showAndWait();
+        }
+    }
+
+
+    @FXML
     private void handleUnlockAction() {
         titreTextField.setDisable(false);
         auteurTextField.setDisable(false);

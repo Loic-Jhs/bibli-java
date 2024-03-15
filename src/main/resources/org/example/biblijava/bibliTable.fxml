@@ -29,6 +29,8 @@
                     </columns>
                 </TableView>
                 <Button text="+" fx:id="unlockButton" onAction="#handleUnlockAction" styleClass="button-unlock"/>
+                <Button text="-" fx:id="deleteButton"  onAction="#handleDeleteAction" styleClass="button-unlock"/>
+
             </VBox>
 
             <VBox prefHeight="400.0" prefWidth="380.0" spacing="10" styleClass="form-container">
