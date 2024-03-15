@@ -53,7 +53,11 @@ public class BibliController {
         colonneColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getColonne()));
         rangeeColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Number>(cellData.getValue().getRangee()));
 
-
+        tableBooks.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                fillFormWithBookDetails(newSelection);
+            }
+        });
 
         booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une belle histoire", 1943, 1, 1));
         booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949, 2, 3));
@@ -92,6 +96,17 @@ public class BibliController {
         colonneTextField.setDisable(false);
         rangeeTextField.setDisable(false);
         ajouterButton.setDisable(false);
+    }
+
+    private void fillFormWithBookDetails(Book book) {
+        titreTextField.setText(book.getTitre());
+        auteurTextField.setText(book.getAuteur());
+        presentationTextArea.setText(book.getPresentation());
+        parutionTextField.setText(String.valueOf(book.getParution()));
+        colonneTextField.setText(String.valueOf(book.getColonne()));
+        rangeeTextField.setText(String.valueOf(book.getRangee()));
+
+        handleUnlockAction();
     }
 
 }
