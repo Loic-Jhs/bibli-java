@@ -16,6 +16,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import java.io.FileOutputStream;
 
 import org.w3c.dom.*;
 
@@ -423,9 +427,40 @@ public class BibliController {
         }
     }
     public void exportBooksToWord(File file) {
-        // La logique ici peut être identique à saveBooksToXML, ou adaptée pour l'exportation
-        // Par exemple, vous pouvez choisir d'exporter uniquement certaines informations
-        saveBooksToXML(file); // Si la logique d'exportation est identique à la sauvegarde
+        try (XWPFDocument document = new XWPFDocument()) { // Crée un nouveau document Word
+            XWPFTable table = document.createTable(); // Crée une table dans le document
+
+            // Création de l'en-tête de la table
+            XWPFTableRow header = table.getRow(0); // La première ligne est créée par défaut avec la table
+            header.getCell(0).setText("Titre");
+            header.addNewTableCell().setText("Auteur");
+            header.addNewTableCell().setText("Présentation");
+            header.addNewTableCell().setText("Parution");
+            header.addNewTableCell().setText("Colonne");
+            header.addNewTableCell().setText("Rangée");
+            header.addNewTableCell().setText("Gazette");
+            header.addNewTableCell().setText("Disponible");
+
+            // Ajout des données de chaque livre dans la table
+            for (Book book : booksData) {
+                XWPFTableRow row = table.createRow(); // Crée une nouvelle ligne pour chaque livre
+                row.getCell(0).setText(book.getTitre());
+                row.getCell(1).setText(book.getAuteur());
+                row.getCell(2).setText(book.getPresentation());
+                row.getCell(3).setText(String.valueOf(book.getParution()));
+                row.getCell(4).setText(String.valueOf(book.getColonne()));
+                row.getCell(5).setText(String.valueOf(book.getRangee()));
+                row.getCell(6).setText(book.getGazette());
+                row.getCell(7).setText(book.getDisponible() ? "Oui" : "Non");
+            }
+
+            // Écrit le document dans le fichier
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                document.write(out);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

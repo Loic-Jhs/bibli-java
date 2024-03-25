@@ -4,6 +4,7 @@ module org.example.biblijava {
 
     requires org.kordamp.bootstrapfx.core;
     requires java.xml;
+    requires org.apache.poi.ooxml;
 
     opens org.example.biblijava to javafx.fxml;
     exports org.example.biblijava;
