@@ -422,6 +422,12 @@ public class BibliController {
             e.printStackTrace();
         }
     }
+    public void exportBooksToWord(File file) {
+        // La logique ici peut être identique à saveBooksToXML, ou adaptée pour l'exportation
+        // Par exemple, vous pouvez choisir d'exporter uniquement certaines informations
+        saveBooksToXML(file); // Si la logique d'exportation est identique à la sauvegarde
+    }
+
 
     public void setCurrentFile(File file) {
         this.currentFile = file;

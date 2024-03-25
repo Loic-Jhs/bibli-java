@@ -53,7 +53,21 @@ public class BibliJavaApplication extends Application {
 
             MenuItem exitItem = new MenuItem("Quitter");
             exitItem.setOnAction(e -> System.exit(0));
-            fileMenu.getItems().addAll(importItem, exitItem);
+
+            MenuItem exportItem = new MenuItem("Export");
+            exportItem.setOnAction(e -> {
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichiers Word (*.docx)", "*.docx");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showSaveDialog(primaryStage);
+
+                if (file != null) {
+                    bibliController.exportBooksToWord(file);
+                }
+            });
+
+
+            fileMenu.getItems().addAll(importItem, exportItem, exitItem);
 
             // Menu Édition
             Menu editMenu = new Menu("Édition");
@@ -101,6 +115,8 @@ public class BibliJavaApplication extends Application {
                     ex.printStackTrace();
                 }
             });
+
+
 
             aboutMenu.getItems().addAll(infosItem);
 
