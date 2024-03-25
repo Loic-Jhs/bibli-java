@@ -300,9 +300,18 @@ public class BibliController {
                             ? Integer.parseInt(rangeeNodeList.item(0).getTextContent())
                             : 0;
 
+                    // Exemple pour la Gazette
+                    NodeList gazetteNodeList = eElement.getElementsByTagName("gazette");
+                    String gazette = gazetteNodeList.getLength() > 0 ? gazetteNodeList.item(0).getTextContent() : "";
+
+                    // Exemple pour Disponible
+                    NodeList disponibleNodeList = eElement.getElementsByTagName("disponible");
+                    boolean disponible = disponibleNodeList.getLength() > 0 ? Boolean.parseBoolean(disponibleNodeList.item(0).getTextContent()) : false;
+
+
                     // Création et ajout du livre à la liste
-//                    Book book = new Book(titre, auteur, presentation, parution, colonne, rangee);
-//                    booksData.add(book);
+                    Book book = new Book(titre, auteur, presentation, parution, colonne, rangee, gazette, disponible);
+                    booksData.add(book);
                 }
             }
         } catch (Exception e) {
@@ -390,6 +399,16 @@ public class BibliController {
                 Element rangee = doc.createElement("rangee");
                 rangee.appendChild(doc.createTextNode(String.valueOf(book.getRangee())));
                 livre.appendChild(rangee);
+
+                // Gazette
+                Element gazette = doc.createElement("gazette");
+                gazette.appendChild(doc.createTextNode(book.getGazette()));
+                livre.appendChild(gazette);
+
+                // Disponible
+                Element disponible = doc.createElement("disponible");
+                disponible.appendChild(doc.createTextNode(String.valueOf(book.getDisponible())));
+                livre.appendChild(disponible);
             }
 
             // Sauvegarder le document XML
