@@ -1,9 +1,6 @@
 package org.example.biblijava.model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.*;
 
 public class Book {
     private final SimpleStringProperty titre;
@@ -12,8 +9,10 @@ public class Book {
     private final SimpleIntegerProperty parution;
     private final SimpleIntegerProperty colonne;
     private final SimpleIntegerProperty rangee;
+    private final SimpleStringProperty gazette; // URL de la gazette
+    private final SimpleBooleanProperty disponible; // Disponibilité du livre
 
-    public Book(String titre, String auteur, String presentation, int parution, int colonne, int rangee) {
+    public Book(String titre, String auteur, String presentation, int parution, int colonne, int rangee, String gazette, boolean disponible) {
 
         this.titre = new SimpleStringProperty(titre);
         this.auteur = new SimpleStringProperty(auteur);
@@ -21,8 +20,9 @@ public class Book {
         this.parution = new SimpleIntegerProperty(parution);
         this.colonne = new SimpleIntegerProperty(colonne);
         this.rangee = new SimpleIntegerProperty(rangee);
+        this.gazette = new SimpleStringProperty(gazette);
+        this.disponible = new SimpleBooleanProperty(disponible);
     }
-
 
     public String getTitre() { return titre.get(); }
     public void setTitre(String value) { titre.set(value); }
@@ -47,4 +47,12 @@ public class Book {
     public int getRangee() { return rangee.get(); }
     public void setRangee(int value) { rangee.set(value); }
     public IntegerProperty rangeeProperty() { return rangee; }
+
+    public String getGazette() { return gazette.get(); }
+    public void setGazette(String value) { gazette.set(value); }
+    public StringProperty gazetteProperty() { return gazette; }
+
+    public boolean getDisponible() { return disponible.get(); }
+    public void setDisponible(boolean value) { disponible.set(value); }
+    public BooleanProperty disponibleProperty() { return disponible; }
 }

@@ -5,6 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.example.biblijava.model.Book;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,9 +53,16 @@ public class BibliController {
     @FXML
     private TextField rangeeTextField;
     @FXML
+    private TextField gazetteTextField;
+    @FXML
+    private CheckBox disponibleCheckBox;
+    @FXML
     private Button ajouterButton;
     @FXML
     private Button modifierButton;
+    @FXML
+    private ImageView bookImageView;
+
 
     private ObservableList<Book> booksData = FXCollections.observableArrayList();
 
@@ -92,6 +101,8 @@ public class BibliController {
             }
         });
 
+        disponibleCheckBox.setSelected(true);
+
         // booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une
         // belle histoire", 1943, 1, 1));
         // booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949,
@@ -108,6 +119,8 @@ public class BibliController {
         String parutionStr = parutionTextField.getText();
         String colonneStr = colonneTextField.getText();
         String rangeeStr = rangeeTextField.getText();
+        String gazetteURL = gazetteTextField.getText();
+        boolean disponible = disponibleCheckBox.isSelected();
 
         // Vérification que tous les champs sont remplis
         if (titre.isEmpty() || auteur.isEmpty() || presentation.isEmpty() || parutionStr.isEmpty()
@@ -148,7 +161,7 @@ public class BibliController {
         }
 
         // Ajout du livre
-        Book nouveauLivre = new Book(titre, auteur, presentation, parution, colonne, rangee);
+        Book nouveauLivre = new Book(titre, auteur, presentation, parution, colonne, rangee, gazetteURL, disponible);
         booksData.add(nouveauLivre);
 
         // Nettoyage des champs du formulaire
@@ -158,6 +171,8 @@ public class BibliController {
         parutionTextField.clear();
         colonneTextField.clear();
         rangeeTextField.clear();
+        gazetteTextField.clear();
+        disponibleCheckBox.setSelected(false);
     }
 
     private void showAlert(String title, String content) {
@@ -191,6 +206,8 @@ public class BibliController {
         parutionTextField.setDisable(false);
         colonneTextField.setDisable(false);
         rangeeTextField.setDisable(false);
+        gazetteTextField.setDisable(false);
+        disponibleCheckBox.setDisable(false);
         ajouterButton.setDisable(false);
     }
 
@@ -201,6 +218,15 @@ public class BibliController {
         parutionTextField.setText(String.valueOf(book.getParution()));
         colonneTextField.setText(String.valueOf(book.getColonne()));
         rangeeTextField.setText(String.valueOf(book.getRangee()));
+        gazetteTextField.setText(book.getGazette());
+        disponibleCheckBox.setSelected(book.getDisponible());
+
+        if (book.getGazette() != null && !book.getGazette().isEmpty()) {
+            Image image = new Image(book.getGazette(), true); // Le deuxième paramètre `true` permet le chargement en arrière-plan
+            bookImageView.setImage(image);
+        } else {
+            bookImageView.setImage(null); // Efface l'image précédente si le livre sélectionné n'a pas d'URL d'image
+        }
 
         handleUnlockAction();
     }
@@ -275,8 +301,8 @@ public class BibliController {
                             : 0;
 
                     // Création et ajout du livre à la liste
-                    Book book = new Book(titre, auteur, presentation, parution, colonne, rangee);
-                    booksData.add(book);
+//                    Book book = new Book(titre, auteur, presentation, parution, colonne, rangee);
+//                    booksData.add(book);
                 }
             }
         } catch (Exception e) {
@@ -303,6 +329,8 @@ public class BibliController {
             selectedBook.setParution(parution);
             selectedBook.setColonne(colonne);
             selectedBook.setRangee(rangee);
+            selectedBook.setGazette(gazetteTextField.getText());
+            selectedBook.setDisponible(disponibleCheckBox.isSelected());
 
             // Mets à jour le tableau avec les nouvelles valeurs du livre modifié
             tableBooks.refresh();

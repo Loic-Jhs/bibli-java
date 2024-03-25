@@ -7,9 +7,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.biblijava.controller.BibliController">
     <center>
@@ -30,6 +33,8 @@
                 </TableView>
                 <Button text="+" fx:id="unlockButton" onAction="#handleUnlockAction" styleClass="button-unlock"/>
                 <Button text="-" fx:id="deleteButton"  onAction="#handleDeleteAction" styleClass="button-unlock"/>
+                <ImageView fx:id="bookImageView" fitWidth="200" fitHeight="300" preserveRatio="true" />
+
 
             </VBox>
 
@@ -41,6 +46,8 @@
                 <TextField fx:id="parutionTextField" promptText="Parution" styleClass="text-field" disable="true"/>
                 <TextField fx:id="colonneTextField" promptText="Colonne" styleClass="text-field" disable="true"/>
                 <TextField fx:id="rangeeTextField" promptText="Rangée" styleClass="text-field" disable="true"/>
+                <TextField fx:id="gazetteTextField" promptText="Gazette URL" styleClass="text-field" disable="true"/>
+                <CheckBox fx:id="disponibleCheckBox" text="Disponible" disable="true"/>
                 <Button fx:id="ajouterButton" onAction="#handleAjouterAction" styleClass="button" text="Valider" disable="true"/>
                 <Button fx:id="modifierButton" onAction="#handleModifierAction" styleClass="button" text="Modifier" disable="true" />
             </VBox>
