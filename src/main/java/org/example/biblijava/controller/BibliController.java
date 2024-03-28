@@ -73,6 +73,14 @@ public class BibliController {
 
     private ObservableList<Book> booksData = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the controller.
+     * Sets up the table columns with appropriate cell value factories.
+     * Adds a listener to the table selection to populate the form with book details when a book is selected.
+     * Disables the "Modifier" button at startup and enables it when a book is selected.
+     * Sets the "Disponible" checkbox to selected by default.
+     * Binds the table view to the observable list of books.
+     */
     @FXML
     private void initialize() {
 
@@ -113,6 +121,11 @@ public class BibliController {
         tableBooks.setItems(booksData);
     }
 
+    /**
+     * Handles the action of adding a new book to the library.
+     * Validates the input fields and adds the book to the library if all fields are correctly filled.
+     * Displays error messages for invalid inputs or duplicate books.
+     */
     @FXML
     private void handleAjouterAction() {
         String titre = titreTextField.getText();
@@ -177,6 +190,12 @@ public class BibliController {
         disponibleCheckBox.setSelected(false);
     }
 
+    /**
+     * Displays an alert dialog with the specified title and content.
+     *
+     * @param title   The title of the alert dialog.
+     * @param content The content text to be displayed in the alert dialog.
+     */
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -185,6 +204,11 @@ public class BibliController {
         alert.showAndWait();
     }
 
+    /**
+     * Handles the action of deleting a book from the table.
+     * If a book is selected, it removes the selected book from the table.
+     * Otherwise, it displays a warning message indicating that no book is selected.
+     */
     @FXML
     private void handleDeleteAction() {
         int selectedIndex = tableBooks.getSelectionModel().getSelectedIndex();
@@ -200,6 +224,9 @@ public class BibliController {
         }
     }
 
+    /**
+     * Enables all form fields and buttons for editing book details.
+     */
     @FXML
     private void handleUnlockAction() {
         titreTextField.setDisable(false);
@@ -213,6 +240,12 @@ public class BibliController {
         ajouterButton.setDisable(false);
     }
 
+    /**
+     * Fills the form fields with the details of the specified book.
+     * Updates the UI elements with the book's title, author, presentation, publication year,
+     * column, row, gazette, and availability.
+     * If the book has a gazette URL, displays the corresponding image.
+     */
     private void fillFormWithBookDetails(Book book) {
         titreTextField.setText(book.getTitre());
         auteurTextField.setText(book.getAuteur());
@@ -234,6 +267,11 @@ public class BibliController {
         handleUnlockAction();
     }
 
+    /**
+     * Loads books data from an XML file.
+     *
+     * @param file The XML file from which the books data should be loaded.
+     */
     public void loadBooksFromXML(File file) {
         try {
             // Efface tous les livres existants dans la liste observable pour commencer avec
@@ -325,6 +363,10 @@ public class BibliController {
         }
     }
 
+    /**
+     * Handles the action of modifying a book's information.
+     * Updates the selected book's details with the new values provided.
+     */
     @FXML
     private void handleModifierAction() {
         Book selectedBook = tableBooks.getSelectionModel().getSelectedItem();
@@ -350,6 +392,11 @@ public class BibliController {
         }
     }
 
+    /**
+     * Saves the books data to an XML file.
+     *
+     * @param file The XML file to which the books data should be saved.
+     */
     public void saveBooksToXML(File file) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -427,6 +474,11 @@ public class BibliController {
         }
     }
 
+    /**
+     * Export the book data to a Word file with a specified layout.
+     *
+     * @param file The file to export the data to.
+     */
     public void exportBooksToWord(File file) {
         try (XWPFDocument document = new XWPFDocument()) {
             addCoverPage(document); // Ajout de la page de garde
@@ -491,6 +543,11 @@ public class BibliController {
         }
     }
 
+    /**
+     * Creates a new cover page with necessary information such as project name and developers' names.
+     *
+     * @param document The Word document to which the cover page should be added.
+     */
     private void addCoverPage(XWPFDocument document) {
         // Crée une nouvelle page de garde avec les informations nécessaires
         XWPFParagraph coverPageParagraph = document.createParagraph();
@@ -510,6 +567,11 @@ public class BibliController {
         paragraph.setPageBreak(true);
     }
 
+    /**
+     * Adds a header on each page of the document containing the file generation date and the document name.
+     *
+     * @param document The Word document to which the header should be added.
+     */
     private void addDocumentHeader(XWPFDocument document) {
         // Ajoute un en-tête sur chaque page contenant la date de génération du fichier
         // et le nom du document
