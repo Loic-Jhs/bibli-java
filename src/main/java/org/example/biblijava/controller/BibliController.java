@@ -14,17 +14,21 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+
+import org.apache.poi.wp.usermodel.HeaderFooterType;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.apache.poi.xwpf.usermodel.XWPFHeader;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import java.io.FileOutputStream;
 
 import org.w3c.dom.*;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class BibliController {
     private File currentFile;
@@ -67,7 +71,6 @@ public class BibliController {
     @FXML
     private ImageView bookImageView;
 
-
     private ObservableList<Book> booksData = FXCollections.observableArrayList();
 
     @FXML
@@ -106,11 +109,6 @@ public class BibliController {
         });
 
         disponibleCheckBox.setSelected(true);
-
-        // booksData.add(new Book("Le Petit Prince", "Antoine de Saint-Exupéry", "Une
-        // belle histoire", 1943, 1, 1));
-        // booksData.add(new Book("1984", "George Orwell", "Dystopie classique", 1949,
-        // 2, 3));
 
         tableBooks.setItems(booksData);
     }
@@ -226,7 +224,8 @@ public class BibliController {
         disponibleCheckBox.setSelected(book.getDisponible());
 
         if (book.getGazette() != null && !book.getGazette().isEmpty()) {
-            Image image = new Image(book.getGazette(), true); // Le deuxième paramètre `true` permet le chargement en arrière-plan
+            Image image = new Image(book.getGazette(), true); // Le deuxième paramètre `true` permet le chargement en
+                                                              // arrière-plan
             bookImageView.setImage(image);
         } else {
             bookImageView.setImage(null); // Efface l'image précédente si le livre sélectionné n'a pas d'URL d'image
@@ -310,8 +309,9 @@ public class BibliController {
 
                     // Exemple pour Disponible
                     NodeList disponibleNodeList = eElement.getElementsByTagName("disponible");
-                    boolean disponible = disponibleNodeList.getLength() > 0 ? Boolean.parseBoolean(disponibleNodeList.item(0).getTextContent()) : false;
-
+                    boolean disponible = disponibleNodeList.getLength() > 0
+                            ? Boolean.parseBoolean(disponibleNodeList.item(0).getTextContent())
+                            : false;
 
                     // Création et ajout du livre à la liste
                     Book book = new Book(titre, auteur, presentation, parution, colonne, rangee, gazette, disponible);
@@ -426,32 +426,60 @@ public class BibliController {
             e.printStackTrace();
         }
     }
+
     public void exportBooksToWord(File file) {
-        try (XWPFDocument document = new XWPFDocument()) { // Crée un nouveau document Word
-            XWPFTable table = document.createTable(); // Crée une table dans le document
+        try (XWPFDocument document = new XWPFDocument()) {
+            addCoverPage(document); // Ajout de la page de garde
+            addDocumentHeader(document); // Ajout de l'en-tête sur chaque page
+            // Création d'un en-tête
+            XWPFParagraph headerParagraph = document.createParagraph();
+            headerParagraph.setAlignment(ParagraphAlignment.CENTER);
+            XWPFRun headerRun = headerParagraph.createRun();
+            headerRun.setText("Liste des livres");
+            headerRun.setFontSize(16);
+            headerRun.setBold(true);
 
-            // Création de l'en-tête de la table
-            XWPFTableRow header = table.getRow(0); // La première ligne est créée par défaut avec la table
-            header.getCell(0).setText("Titre");
-            header.addNewTableCell().setText("Auteur");
-            header.addNewTableCell().setText("Présentation");
-            header.addNewTableCell().setText("Parution");
-            header.addNewTableCell().setText("Colonne");
-            header.addNewTableCell().setText("Rangée");
-            header.addNewTableCell().setText("Gazette");
-            header.addNewTableCell().setText("Disponible");
-
-            // Ajout des données de chaque livre dans la table
+            // Ajout des données de chaque livre dans le document
             for (Book book : booksData) {
-                XWPFTableRow row = table.createRow(); // Crée une nouvelle ligne pour chaque livre
-                row.getCell(0).setText(book.getTitre());
-                row.getCell(1).setText(book.getAuteur());
-                row.getCell(2).setText(book.getPresentation());
-                row.getCell(3).setText(String.valueOf(book.getParution()));
-                row.getCell(4).setText(String.valueOf(book.getColonne()));
-                row.getCell(5).setText(String.valueOf(book.getRangee()));
-                row.getCell(6).setText(book.getGazette());
-                row.getCell(7).setText(book.getDisponible() ? "Oui" : "Non");
+                // Saut de ligne entre les livres
+                document.createParagraph();
+
+                // Titre du livre
+                XWPFParagraph titleParagraph = document.createParagraph();
+                titleParagraph.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun titleRun = titleParagraph.createRun();
+                titleRun.setText(book.getTitre());
+                titleRun.setFontSize(14);
+                titleRun.setBold(true);
+
+                // Auteur du livre
+                XWPFParagraph authorParagraph = document.createParagraph();
+                authorParagraph.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun authorRun = authorParagraph.createRun();
+                authorRun.setText("Auteur : " + book.getAuteur());
+                authorRun.setFontSize(12);
+
+                // Présentation du livre
+                XWPFParagraph presentationParagraph = document.createParagraph();
+                presentationParagraph.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun presentationRun = presentationParagraph.createRun();
+                presentationRun.setText("Présentation : " + book.getPresentation());
+                presentationRun.setFontSize(12);
+
+                // Autres informations
+                XWPFParagraph otherInfoParagraph = document.createParagraph();
+                otherInfoParagraph.setAlignment(ParagraphAlignment.LEFT);
+                XWPFRun otherInfoRun = otherInfoParagraph.createRun();
+                otherInfoRun.setText("Parution : " + book.getParution());
+                otherInfoRun.addBreak();
+                otherInfoRun.setText("Colonne : " + book.getColonne());
+                otherInfoRun.addBreak();
+                otherInfoRun.setText("Rangée : " + book.getRangee());
+                otherInfoRun.addBreak();
+                otherInfoRun.setText("Gazette : " + book.getGazette());
+                otherInfoRun.addBreak();
+                otherInfoRun.setText("Disponible : " + (book.getDisponible() ? "Oui" : "Non"));
+                otherInfoRun.setFontSize(12);
             }
 
             // Écrit le document dans le fichier
@@ -463,9 +491,41 @@ public class BibliController {
         }
     }
 
+    private void addCoverPage(XWPFDocument document) {
+        // Crée une nouvelle page de garde avec les informations nécessaires
+        XWPFParagraph coverPageParagraph = document.createParagraph();
+        coverPageParagraph.setAlignment(ParagraphAlignment.CENTER);
+
+        XWPFRun coverPageRun = coverPageParagraph.createRun();
+        coverPageRun.setText("Page de Garde");
+        coverPageRun.setFontSize(20);
+        coverPageRun.addBreak();
+
+        // Ajoute les informations supplémentaires
+        coverPageRun.setText("Projet bibliothèque Java");
+        coverPageRun.addBreak();
+        coverPageRun.setText("Développeurs : Benjamin, Loïc, Matteo et Élise");
+
+        XWPFParagraph paragraph = document.createParagraph(); // Ajouter un saut de page
+        paragraph.setPageBreak(true);
+    }
+
+    private void addDocumentHeader(XWPFDocument document) {
+        // Ajoute un en-tête sur chaque page contenant la date de génération du fichier
+        // et le nom du document
+        XWPFHeader header = document.createHeader(HeaderFooterType.DEFAULT);
+
+        XWPFParagraph headerParagraph = header.createParagraph();
+        headerParagraph.setAlignment(ParagraphAlignment.RIGHT);
+
+        XWPFRun headerRun = headerParagraph.createRun();
+        headerRun.setText("Nom du document : Bibliothèque");
+        headerRun.addBreak();
+        headerRun.setText("Date de génération : "
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+    }
 
     public void setCurrentFile(File file) {
         this.currentFile = file;
     }
-
 }
