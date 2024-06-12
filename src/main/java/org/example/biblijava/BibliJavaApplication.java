@@ -8,6 +8,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.biblijava.controller.BibliController;
+import org.example.biblijava.util.DatabaseUtil;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -17,6 +19,7 @@ public class BibliJavaApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        DatabaseUtil.initializeDatabase();  // Initialiser la base de données
         showLoginStage(primaryStage);
     }
 
