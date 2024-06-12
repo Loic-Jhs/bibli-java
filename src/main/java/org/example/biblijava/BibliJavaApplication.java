@@ -4,23 +4,37 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import org.example.biblijava.controller.BibliController;
-
-import javafx.scene.layout.AnchorPane;
-
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import javafx.scene.layout.BorderPane;
-
+import org.example.biblijava.controller.BibliController;
 import java.io.File;
 import java.io.IOException;
 
 public class BibliJavaApplication extends Application {
 
     private File currentFile;
+
     @Override
-    public void start(Stage primaryStage) throws IOException{
+    public void start(Stage primaryStage) throws IOException {
+        showLoginStage(primaryStage);
+    }
+
+    private void showLoginStage(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/biblijava/loginView.fxml"));
+        Scene loginScene = new Scene(loader.load(), 300, 200);
+
+        Stage loginStage = new Stage();
+        loginStage.setTitle("Login");
+        loginStage.setScene(loginScene);
+        loginStage.setResizable(false);
+        loginStage.showAndWait(); // Attendre que l'utilisateur se connecte
+
+        // Charger l'application principale après la connexion réussie
+        showMainStage(primaryStage);
+    }
+
+    private void showMainStage(Stage primaryStage) throws IOException {
         try {
             // Crée un BorderPane comme racine de la scène
             BorderPane root = new BorderPane();
@@ -41,7 +55,7 @@ public class BibliJavaApplication extends Application {
             importItem.setOnAction(e -> {
                 FileChooser fileChooser = new FileChooser();
                 FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("Fichiers XML (*.xml)", "*.xml");
-                
+
                 fileChooser.getExtensionFilters().add(xmlFilter);
                 File file = fileChooser.showOpenDialog(primaryStage);
 
@@ -65,7 +79,6 @@ public class BibliJavaApplication extends Application {
                     bibliController.exportBooksToWord(file);
                 }
             });
-
 
             fileMenu.getItems().addAll(importItem, exportItem, exitItem);
 
@@ -115,8 +128,6 @@ public class BibliJavaApplication extends Application {
                     ex.printStackTrace();
                 }
             });
-
-
 
             aboutMenu.getItems().addAll(infosItem);
 

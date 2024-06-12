@@ -7,6 +7,7 @@ module org.example.biblijava {
     requires org.apache.poi.ooxml;
 
     opens org.example.biblijava to javafx.fxml;
+    opens org.example.biblijava.controller.auth to javafx.fxml;
     exports org.example.biblijava;
     exports org.example.biblijava.controller;
     opens org.example.biblijava.controller to javafx.fxml;
