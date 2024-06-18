@@ -39,5 +39,3 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Generate Javadoc
         run: mvn javadoc:javadoc
-      - name: Generate Javadoc
-        run: mvn javadoc:javadoc
