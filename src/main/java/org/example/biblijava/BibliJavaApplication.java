@@ -68,6 +68,7 @@ public class BibliJavaApplication extends Application {
                 }
             });
 
+            MenuItem connexionItem = new MenuItem("Connexion");
             MenuItem exitItem = new MenuItem("Quitter");
             exitItem.setOnAction(e -> System.exit(0));
 
@@ -83,7 +84,7 @@ public class BibliJavaApplication extends Application {
                 }
             });
 
-            fileMenu.getItems().addAll(importItem, exportItem, exitItem);
+            fileMenu.getItems().addAll(importItem, connexionItem, exportItem, exitItem);
 
             // Menu Édition
             Menu editMenu = new Menu("Édition");
