@@ -7,6 +7,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.biblijava.util.DatabaseUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
 public class ResetPasswordController {
 
     @FXML
@@ -17,14 +22,14 @@ public class ResetPasswordController {
     @FXML
     private void handleResetPassword() {
         String username = usernameField.getText();
-        String newPassword = newPasswordField.getText();
+        String password = newPasswordField.getText();
 
-        if (username.isEmpty() || newPassword.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Reset Password Failed", "All fields are required.");
             return;
         }
 
-        if (resetUserPassword(email, newPassword)) {
+        if (resetUserPassword(username, password)) {
             showAlert(Alert.AlertType.INFORMATION, "Password Reset Successful", "Password for " + username + " has been reset.");
             closeResetPasswordWindow();
         } else {
@@ -32,13 +37,13 @@ public class ResetPasswordController {
         }
     }
 
-    private boolean resetUserPassword(String username, String newPassword) {
+    private boolean resetUserPassword(String username, String password) {
         String query = "UPDATE users SET password = ? WHERE username = ?";
 
         try (Connection connection = DatabaseUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, newPassword);
+            statement.setString(1, password);
             statement.setString(2, username);
 
             int rowsAffected = statement.executeUpdate();
