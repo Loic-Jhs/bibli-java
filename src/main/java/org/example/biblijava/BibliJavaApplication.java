@@ -27,6 +27,9 @@ public class BibliJavaApplication extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/biblijava/loginView.fxml"));
         Scene loginScene = new Scene(loader.load(), 300, 200);
 
+        String css = getClass().getResource("/loginStyle.css").toExternalForm();
+        loginScene.getStylesheets().add(css);
+
         Stage loginStage = new Stage();
         loginStage.setTitle("Login");
         loginStage.setScene(loginScene);

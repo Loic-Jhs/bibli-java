@@ -53,6 +53,23 @@ public class LoginController {
         }
     }
 
+    @FXML
+    private void showResetPassword() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/biblijava/resetPasswordView.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Reset Password");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean authenticateUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
 

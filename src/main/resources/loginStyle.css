@@ -1,3 +1,55 @@
+/* Appliquer un style de base au GridPane */
+.grid-pane {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 25;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+
+/* Style pour les TextField et PasswordField */
+.text-field, .password-field {
+    -fx-font-size: 14px;
+    -fx-padding: 10;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+}
+
+/* Style pour les boutons */
+.button {
+    -fx-font-size: 14px;
+    -fx-padding: 10;
+    -fx-background-color: #0078d7;
+    -fx-text-fill: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #005a9e;
+}
+
+.button:pressed {
+    -fx-background-color: #004080;
+}
+
+/* Style pour les Hyperlinks */
+.hyperlink {
+    -fx-text-fill: #0078d7;
+    -fx-font-size: 14px;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #005a9e;
+}
+
+/* Alignement des boutons dans la même ligne */
+.button-container {
+    -fx-alignment: center-right;
+    -fx-spacing: 10;
+}
+
+/* Styles existants */
 .form-container {
     -fx-padding: 10;
 }
@@ -8,23 +60,11 @@
     -fx-text-fill: #333;
 }
 
-.text-field, .text-area {
+.text-area {
     -fx-padding: 4 4 4 4;
     -fx-background-color: #fff;
     -fx-border-color: #ccc;
     -fx-border-radius: 5;
-}
-
-.button {
-    -fx-background-color: #0078d7;
-    -fx-text-fill: #ffffff;
-    -fx-font-weight: bold;
-    -fx-border-radius: 5;
-    -fx-padding: 10 20 10 20;
-}
-
-.button:hover {
-    -fx-background-color: #005a9e;
 }
 
 .table-view {
