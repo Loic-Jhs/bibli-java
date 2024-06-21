@@ -76,8 +76,10 @@ public class BibliController {
     /**
      * Initializes the controller.
      * Sets up the table columns with appropriate cell value factories.
-     * Adds a listener to the table selection to populate the form with book details when a book is selected.
-     * Disables the "Modifier" button at startup and enables it when a book is selected.
+     * Adds a listener to the table selection to populate the form with book details
+     * when a book is selected.
+     * Disables the "Modifier" button at startup and enables it when a book is
+     * selected.
      * Sets the "Disponible" checkbox to selected by default.
      * Binds the table view to the observable list of books.
      */
@@ -123,7 +125,8 @@ public class BibliController {
 
     /**
      * Handles the action of adding a new book to the library.
-     * Validates the input fields and adds the book to the library if all fields are correctly filled.
+     * Validates the input fields and adds the book to the library if all fields are
+     * correctly filled.
      * Displays error messages for invalid inputs or duplicate books.
      */
     @FXML
@@ -242,7 +245,8 @@ public class BibliController {
 
     /**
      * Fills the form fields with the details of the specified book.
-     * Updates the UI elements with the book's title, author, presentation, publication year,
+     * Updates the UI elements with the book's title, author, presentation,
+     * publication year,
      * column, row, gazette, and availability.
      * If the book has a gazette URL, displays the corresponding image.
      */
@@ -283,6 +287,9 @@ public class BibliController {
             // Prépare un constructeur de documents XML, nécessaire pour lire le contenu du
             // fichier XML.
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
             // Parse le fichier XML en un objet Document, qui permet de naviguer dans la
@@ -400,6 +407,9 @@ public class BibliController {
     public void saveBooksToXML(File file) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.newDocument();
 
@@ -464,6 +474,10 @@ public class BibliController {
 
             // Sauvegarder le document XML
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+            transformerFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            transformerFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(file);
@@ -544,7 +558,8 @@ public class BibliController {
     }
 
     /**
-     * Creates a new cover page with necessary information such as project name and developers' names.
+     * Creates a new cover page with necessary information such as project name and
+     * developers' names.
      *
      * @param document The Word document to which the cover page should be added.
      */
@@ -568,7 +583,8 @@ public class BibliController {
     }
 
     /**
-     * Adds a header on each page of the document containing the file generation date and the document name.
+     * Adds a header on each page of the document containing the file generation
+     * date and the document name.
      *
      * @param document The Word document to which the header should be added.
      */
