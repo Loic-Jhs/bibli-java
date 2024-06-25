@@ -58,6 +58,7 @@ public class BibliController {
 
     private ObservableList<Book> booksData = FXCollections.observableArrayList();
 
+
     @FXML
     private void initialize() {
         titreColumn.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
@@ -91,6 +92,7 @@ public class BibliController {
         tableBooks.setItems(booksData);
     }
 
+
     @FXML
     private void handleAjouterAction() {
         bookService.handleAjouterAction(booksData, titreTextField, auteurTextField, presentationTextArea, parutionTextField,
@@ -107,6 +109,7 @@ public class BibliController {
         bookService.handleModifierAction(tableBooks, titreTextField, auteurTextField, presentationTextArea, parutionTextField,
                 colonneTextField, rangeeTextField, gazetteTextField, disponibleCheckBox);
     }
+
 
     private void fillFormWithBookDetails(Book book) {
         titreTextField.setText(book.getTitre());
@@ -128,6 +131,7 @@ public class BibliController {
         handleUnlockAction();
     }
 
+
     @FXML
     private void handleUnlockAction() {
         titreTextField.setDisable(false);
@@ -147,11 +151,11 @@ public class BibliController {
     }
 
     public void saveBooksToXML(File file) {
-        XMLUtil.saveBooksToXML(file, booksData);
+
     }
 
     public void exportBooksToWord(File file) {
-        WordExportUtil.exportBooksToWord(file, booksData);
+
     }
 
     public void setCurrentFile(File file) {
