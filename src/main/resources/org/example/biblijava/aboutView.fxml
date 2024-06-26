@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.biblijava.controller.AboutController">
     <Label text="Développeurs :" style="-fx-font-weight: bold;" />
-    <Label text="RIBOU Benjamin" />
+    <Label text="RIBOU BEN10" />
     <Label text="DE LUTIIS Matteo" />
     <Label text="JOUHANS Loïc" />
     <Label text="PELUSO Elise" />
