@@ -10,8 +10,17 @@ import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Utility class for exporting book data to a Word document.
+ */
 public class WordExportUtil {
 
+    /**
+     * Exports the list of books to a Word document.
+     *
+     * @param file the file
+     * @param booksData the list of books
+     */
     public static void exportBooksToWord(File file, ObservableList<Book> booksData) {
         try (XWPFDocument document = new XWPFDocument()) {
             addCoverPage(document);
@@ -69,6 +78,11 @@ public class WordExportUtil {
         }
     }
 
+    /**
+     * Adds a cover page to the Word document.
+     *
+     * @param document the Word document
+     */
     private static void addCoverPage(XWPFDocument document) {
         XWPFParagraph coverPageParagraph = document.createParagraph();
         coverPageParagraph.setAlignment(ParagraphAlignment.CENTER);
@@ -86,6 +100,11 @@ public class WordExportUtil {
         paragraph.setPageBreak(true);
     }
 
+    /**
+     * Adds a header to the Word document.
+     *
+     * @param document the Word document
+     */
     private static void addDocumentHeader(XWPFDocument document) {
         XWPFHeader header = document.createHeader(HeaderFooterType.DEFAULT);
 

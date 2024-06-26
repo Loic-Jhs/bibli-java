@@ -11,6 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Controller class to manage user registration in the BibliJava app.
+ */
 public class RegisterController {
 
     @FXML
@@ -20,6 +23,10 @@ public class RegisterController {
     @FXML
     private PasswordField confirmPasswordField;
 
+    /**
+     * Manages the registration action as soon as the recording button is clicked.
+     * Validates the input fields and adds the user to the database if valid.
+     */
     @FXML
     private void handleRegister() {
         String username = usernameField.getText();
@@ -44,6 +51,13 @@ public class RegisterController {
         }
     }
 
+    /**
+     * Adds a new user on the database.
+     *
+     * @param username the username
+     * @param password the password
+     * @return true if the user was added successfully, false otherwise
+     */
     private boolean addUser(String username, String password) {
         String query = "INSERT INTO users (username, password) VALUES (?, ?)";
 
@@ -61,6 +75,13 @@ public class RegisterController {
         }
     }
 
+    /**
+     * Shows an alert dialog box with the type, title, and message of the alert.
+     *
+     * @param alertType the type
+     * @param title the title
+     * @param message the message content
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -69,6 +90,9 @@ public class RegisterController {
         alert.showAndWait();
     }
 
+    /**
+     * Closes the registration window.
+     */
     private void closeRegisterWindow() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
         stage.close();

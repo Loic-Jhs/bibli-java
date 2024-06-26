@@ -2,6 +2,10 @@ package org.example.biblijava.model;
 
 import javafx.beans.property.*;
 
+/**
+ * Represents a book in the BibliJava app.
+ * This class uses JavaFX properties to support data binding in the UI.
+ */
 public class Book {
     private final SimpleStringProperty titre;
     private final SimpleStringProperty auteur;
@@ -12,6 +16,18 @@ public class Book {
     private final SimpleStringProperty gazette; // URL de la gazette
     private final SimpleBooleanProperty disponible; // Disponibilité du livre
 
+    /**
+     * Constructs a new Book with some details.
+     *
+     * @param titre        the title of the book
+     * @param auteur       the author of the book
+     * @param presentation a brief description of the book
+     * @param parution     the year of publication
+     * @param colonne      the column location of the book in the library
+     * @param rangee       the row location of the book in the library
+     * @param gazette      the URL of the book's gazette image
+     * @param disponible   the availability status of the book
+     */
     public Book(String titre, String auteur, String presentation, int parution, int colonne, int rangee, String gazette, boolean disponible) {
 
         this.titre = new SimpleStringProperty(titre);
