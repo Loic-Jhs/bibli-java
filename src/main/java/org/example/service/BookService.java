@@ -17,7 +17,7 @@ public class BookService {
                                     TextArea presentationTextArea, TextField parutionTextField, TextField colonneTextField,
                                     TextField rangeeTextField, TextField gazetteTextField, CheckBox disponibleCheckBox) {
 
-        String titre = titreTextField.getText();
+        String titre = titreTextField.getText(); //Définition du titre
         String auteur = auteurTextField.getText();
         String presentation = presentationTextArea.getText();
         String parutionStr = parutionTextField.getText();
