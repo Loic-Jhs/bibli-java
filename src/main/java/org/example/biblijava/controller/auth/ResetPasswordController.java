@@ -11,6 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Controller class to manage password reset functionality in the BibliJava app.
+ */
 public class ResetPasswordController {
 
     @FXML
@@ -18,6 +21,10 @@ public class ResetPasswordController {
     @FXML
     private PasswordField newPasswordField;
 
+    /**
+     * Manages the password reset action as soon as the recording button is clicked.
+     * Validates the input fields and updates the user's password in the database if valid.
+     */
     @FXML
     private void handleResetPassword() {
         String username = usernameField.getText();
@@ -36,6 +43,13 @@ public class ResetPasswordController {
         }
     }
 
+    /**
+     * Updates the password of the user in the database.
+     *
+     * @param username the username
+     * @param password the new password
+     * @return true if the password was updated successfully, false otherwise
+     */
     private boolean resetUserPassword(String username, String password) {
         String query = "UPDATE users SET password = ? WHERE username = ?";
 
@@ -53,6 +67,13 @@ public class ResetPasswordController {
         }
     }
 
+    /**
+     * Shows an alert dialog box with the type, title, and message of the alert.
+     *
+     * @param alertType the type
+     * @param title the title
+     * @param message the message content
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -61,6 +82,9 @@ public class ResetPasswordController {
         alert.showAndWait();
     }
 
+    /**
+     * Closes the password reset window.
+     */
     private void closeResetPasswordWindow() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
         stage.close();

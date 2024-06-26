@@ -18,6 +18,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Controller class that manages the connection function in the BibliJava app.
+ */
 public class LoginController {
 
     @FXML
@@ -27,10 +30,19 @@ public class LoginController {
 
     private BibliJavaApplication mainApp;
 
+    /**
+     * Defines the main application instance.
+     *
+     * @param mainApp the main application
+     */
     public void setMainApp(BibliJavaApplication mainApp) {
         this.mainApp = mainApp;
     }
 
+    /**
+     * Manage the connection as soon as you click on the connection button.
+     * Authenticates the user based on the username and password.
+     */
     @FXML
     private void handleLogin() {
         String username = usernameField.getText();
@@ -45,6 +57,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Shows the registration window.
+     */
     @FXML
     private void showRegister() {
         try {
@@ -62,6 +77,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Shows the reset password window.
+     */
     @FXML
     private void showResetPassword() {
         try {
@@ -79,6 +97,14 @@ public class LoginController {
         }
     }
 
+    /**
+     * Authenticates the user by checking the username and password
+     * based on the database.
+     *
+     * @param username the username
+     * @param password the password
+     * @return true if authentication is successful, false otherwise
+     */
     private boolean authenticateUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
 
@@ -96,6 +122,13 @@ public class LoginController {
         }
     }
 
+    /**
+     * Shows an alert dialog box with the type, title, and message of the alert.
+     *
+     * @param alertType the type
+     * @param title the title
+     * @param message the message content
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -104,6 +137,9 @@ public class LoginController {
         alert.showAndWait();
     }
 
+    /**
+     * Closes the login window.
+     */
     private void closeLoginWindow() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
         stage.close();

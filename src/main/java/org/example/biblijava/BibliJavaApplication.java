@@ -17,11 +17,20 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * Main application class for BibliJava, a JavaFX application for managing a library database.
+ */
 public class BibliJavaApplication extends Application {
 
     private File currentFile;
     private boolean isAuthenticated = false;
 
+    /**
+     * Main entry point for the application.
+     *
+     * @param primaryStage the primary stage of the application
+     * @throws IOException if an error occurs during loading
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         DatabaseUtil.initializeDatabase();  // Initialiser la base de données
@@ -35,6 +44,12 @@ public class BibliJavaApplication extends Application {
         }
     }
 
+    /**
+     * Shows the login stage of the application.
+     *
+     * @param primaryStage the primary stage of the application
+     * @throws IOException if an error occurs during loading
+     */
     private void showLoginStage(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/biblijava/loginView.fxml"));
         Scene loginScene = new Scene(loader.load(), 300, 200);
@@ -61,10 +76,21 @@ public class BibliJavaApplication extends Application {
         }
     }
 
+    /**
+     * Sets the authentication status of the user.
+     *
+     * @param isAuthenticated true if the user is authenticated, false otherwise
+     */
     public void setAuthenticated(boolean isAuthenticated) {
         this.isAuthenticated = isAuthenticated;
     }
 
+    /**
+     * Shows the main stage of the application after successful login.
+     *
+     * @param primaryStage the primary stage of the application
+     * @throws IOException if an error occurs during loading
+     */
     private void showMainStage(Stage primaryStage) throws IOException {
         BorderPane root = new BorderPane();
         FXMLLoader fxmlLoader = new FXMLLoader(BibliJavaApplication.class.getResource("/org/example/biblijava/bibliTable.fxml"));
@@ -84,6 +110,13 @@ public class BibliJavaApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Creates the menu bar for the main application stage.
+     *
+     * @param primaryStage the primary stage of the application
+     * @param bibliController the controller for managing library operations
+     * @return the created menu bar
+     */
     private MenuBar createMenuBar(Stage primaryStage, BibliController bibliController) {
         MenuBar menuBar = new MenuBar();
 
@@ -113,6 +146,12 @@ public class BibliJavaApplication extends Application {
         return menuBar;
     }
 
+    /**
+     * Manages the Import action from the file menu.
+     *
+     * @param primaryStage the primary stage of the application
+     * @param bibliController the controller for managing library operations
+     */
     private void handleImport(Stage primaryStage, BibliController bibliController) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("Fichiers XML (*.xml)", "*.xml");
@@ -125,6 +164,12 @@ public class BibliJavaApplication extends Application {
         }
     }
 
+    /**
+     * Manages the Export action from the file menu.
+     *
+     * @param primaryStage the primary stage of the application
+     * @param bibliController the controller for managing library operations
+     */
     private void handleExport(Stage primaryStage, BibliController bibliController) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichiers Word (*.docx)", "*.docx");
@@ -136,6 +181,11 @@ public class BibliJavaApplication extends Application {
         }
     }
 
+    /**
+     * Manages the Save action from the edit menu.
+     *
+     * @param bibliController the controller for managing library operations
+     */
     private void handleSave(BibliController bibliController) {
         if (currentFile != null) {
             bibliController.saveBooksToXML(currentFile);
@@ -144,6 +194,12 @@ public class BibliJavaApplication extends Application {
         }
     }
 
+    /**
+     * Manages the Save As action from the edit menu.
+     *
+     * @param primaryStage the primary stage of the application
+     * @param bibliController the controller for managing library operations
+     */
     private void handleSaveAs(Stage primaryStage, BibliController bibliController) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichiers XML (*.xml)", "*.xml");
@@ -156,6 +212,9 @@ public class BibliJavaApplication extends Application {
         }
     }
 
+    /**
+     * Manages the About action from the about menu.
+     */
     private void handleAbout() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/biblijava/aboutView.fxml"));
@@ -172,6 +231,11 @@ public class BibliJavaApplication extends Application {
         }
     }
 
+    /**
+     * Main method to launch the application.
+     *
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         launch();
     }

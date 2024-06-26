@@ -19,8 +19,17 @@ import org.w3c.dom.NodeList;
 
 import javafx.collections.ObservableList;
 
+/**
+ * Utility class for managing XML operations related to the Book model.
+ */
 public class XMLUtil {
 
+    /**
+     * Loads books from an XML file.
+     *
+     * @param file the XML file
+     * @return a list of books loaded from the XML file
+     */
     public static List<Book> loadBooksFromXML(File file) {
         List<Book> booksData = new ArrayList<>();
         try {
@@ -56,11 +65,25 @@ public class XMLUtil {
         return booksData;
     }
 
+    /**
+     * Retrieves the contents of an element into a parent element.
+     *
+     * @param parentElement the parent element
+     * @param tagName the name of the tag to retrieve content from
+     * @param defaultValue the default value to return if the element is not found
+     * @return the text content of the specified element, or the default value if not found
+     */
     private static String getElementTextContent(Element parentElement, String tagName, String defaultValue) {
         NodeList nodeList = parentElement.getElementsByTagName(tagName);
         return nodeList.getLength() > 0 ? nodeList.item(0).getTextContent() : defaultValue;
     }
 
+    /**
+     * Saves books to an XML file.
+     *
+     * @param file the XML file
+     * @param booksData the list of books
+     */
     public static void saveBooksToXML(File file, ObservableList<Book> booksData) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -99,6 +122,14 @@ public class XMLUtil {
         }
     }
 
+    /**
+     * Appends a child element with text content to a parent element.
+     *
+     * @param doc the document
+     * @param parent the parent element
+     * @param tagName the name of the tag to create
+     * @param textContent the text content of the new element
+     */
     private static void appendChildElement(Document doc, Element parent, String tagName, String textContent) {
         Element element = doc.createElement(tagName);
         element.appendChild(doc.createTextNode(textContent));
