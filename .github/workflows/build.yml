@@ -1,10 +1,9 @@
 name: SonarCloud
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [main, "dev/**"]
 jobs:
   build:
     name: Build and analyze
@@ -39,3 +38,8 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Generate Javadoc
         run: mvn javadoc:javadoc
+      - name: Upload Javadoc artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: javadoc
+          path: target/site/apidocs
