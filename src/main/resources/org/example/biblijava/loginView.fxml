@@ -6,13 +6,21 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 
 <GridPane fx:controller="org.example.biblijava.controller.auth.LoginController"
-          xmlns:fx="http://javafx.com/fxml" alignment="CENTER" hgap="10" vgap="10">
+          xmlns:fx="http://javafx.com/fxml" alignment="CENTER" hgap="10" vgap="10"
+          stylesheets="@/loginStyle.css" styleClass="grid-pane">
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
 
-    <TextField fx:id="usernameField" promptText="Username" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-    <PasswordField fx:id="passwordField" promptText="Password" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-    <Button text="Login" onAction="#handleLogin" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-    <Hyperlink text="Register" onAction="#showRegister" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    <TextField fx:id="usernameField" promptText="Username" GridPane.rowIndex="0" GridPane.columnIndex="1"
+               styleClass="text-field"/>
+    <PasswordField fx:id="passwordField" promptText="Password" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                   styleClass="password-field"/>
+    <Hyperlink text="Forgot Password" onAction="#showResetPassword" GridPane.rowIndex="2" GridPane.columnIndex="1"
+               styleClass="hyperlink"/>
+    <HBox GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="button-container">
+        <Button text="Login" onAction="#handleLogin" styleClass="button"/>
+        <Button text="Register" onAction="#showRegister" styleClass="button"/>
+    </HBox>
 </GridPane>
